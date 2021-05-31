@@ -1,0 +1,5 @@
+1) Version: 13.0.0.1 | Date : 11/03/2021
+-->  Stop auto reservation on only lot/serial type products.
+
+2) Version: 13.0.0.2 | Date : 31/03/2021
+-->  Fixed the issue in procurement scheduler.
