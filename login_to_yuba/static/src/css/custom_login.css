@@ -1,0 +1,47 @@
+.minus {
+    display: inline-block;
+}
+
+.d-none {
+    display: none;
+}
+
+.input-group-prepend-button {
+  display: -ms-flexbox;
+  display: flex;
+}
+
+body.o_connected_user > div#wrapwrap {
+    background-color: white !important;
+    background-image: none !important;
+}
+
+#wrapwrap {
+    background-attachment: fixed;
+    background-image: url(https://cargobike-staging-13-2102122.dev.odoo.com/web/image/40666) !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;}
+
+.oe_login_form, .oe_signup_form, .oe_reset_password_form {
+    max-width: 300px;
+    position: relative;
+    margin: 50px auto;
+    background-color: rgba(255,255,255,0.9);
+    padding: 20px;
+    margin-top: 150px;
+}
+
+div.clearfix.oe_login_buttons.text-center.mb-1.pt-3 > button {
+    background-color: #406477;
+    color:#FCB731;
+    border: 0;
+}
+
+div#footer {
+    display: none;
+}
+
+#wrapwrap > main > div.oe_website_login_container > form > div.clearfix.oe_login_buttons.text-center.mb-1.pt-3 > div.justify-content-between.mt-2.d-flex.small > a {
+    color: #406477;
+}
