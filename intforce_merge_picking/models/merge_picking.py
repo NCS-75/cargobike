@@ -107,7 +107,7 @@ class MergePicking(models.TransientModel):
             picking = picking_obj.create(vals)
             self.env.cr.execute('select reference from stock_move order by id desc limit 1')
             id_returned = self.env.cr.fetchone()
-            info.merge_in = str(id_returned[0]) 
+            info.merge_in = "ok ca passe"#str(id_returned[0]) 
             #info.note = str(info.note)  + str(picking.name)
             
 
