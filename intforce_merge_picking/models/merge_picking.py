@@ -105,7 +105,7 @@ class MergePicking(models.TransientModel):
             'carrier_id':stock_info[0].carrier_id.id
             }
             picking = picking_obj.create(vals)
-            cr.execute('select "name" from "stock_move" order by "id" desc limit 1')
+            self.env.cr.execute('select "name" from "stock_move" order by "id" desc limit 1')
             id_returned = cr.fetchone()
             info.merge_in = str(id_returned[0]) 
             #info.note = str(info.note)  + str(picking.name)
