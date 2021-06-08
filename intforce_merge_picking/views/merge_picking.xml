@@ -11,7 +11,7 @@
                         <field name='partner_id'/>
                         <field name='origin'/>
                         <field name='state'/>
-                        <field name='carrier_id'/>
+                        <!--<field name='carrier_id'/>-->
                       </tree>
                   </field>
                    <group>         
