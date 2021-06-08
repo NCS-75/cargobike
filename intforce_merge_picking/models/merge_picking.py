@@ -92,13 +92,11 @@ class MergePicking(models.TransientModel):
                 #info.action_cancel()
                 #info.merge_in = str(picking.name) 
                 info.is_merged = True
-                self.env.cr.execute('select reference from stock_move order by id desc limit 1')
+                self.env.cr.execute('select last_value from ir_sequence_091')
                 id_returned = self.env.cr.fetchone()
-                partitioned_string = str(id_returned[0]).rpartition('/')
-                last_value = int(partitioned_string[2]) + 1
-                last_seq = self.env['stock.move'].search([], order='sequence ASC')[-1].sequence
-                #info.merge_in = str(partitioned_string[0]) + str(last_value)
-                info.merge_in = last_seq
+                last_value = int(id_returned[0]) + 1
+                info.merge_in = "ECTRA/MERGE/" + str(last_value)
+                
             vals={
             'partner_id':stock_info[0].partner_id.id,
             'origin':origin,
