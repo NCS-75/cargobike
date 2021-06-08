@@ -49,7 +49,7 @@
             </field>
         </record>
         <record id="view_stock_picking_tree_merge" model="ir.ui.view">
-            <field name="name">view.stock.picking.tree</field>
+            <field name="name">view.stock.picking.tree2</field>
             <field name="model">stock.picking</field>
             <field name="inherit_id" ref="stock.vpicktree"/>
             <field name="arch" type="xml">
