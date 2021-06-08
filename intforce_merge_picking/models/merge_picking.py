@@ -95,7 +95,9 @@ class MergePicking(models.TransientModel):
                 self.env.cr.execute('select last_value from ir_sequence_091')
                 id_returned = self.env.cr.fetchone()
                 last_value = int(id_returned[0]) + 1
-                info.merge_in = "ECTRA/" + str(picking_type_list[0]) + str(last_value)
+                self.env.cr.execute('select code from stock_picking_type where id=' + picking_type_list[0])
+                code = self.env.cr.fetchone()
+                info.merge_in = "ECTRA/" + str(code) + str(last_value)
                 
             vals={
             'partner_id':stock_info[0].partner_id.id,
