@@ -89,7 +89,7 @@ class MergePicking(models.TransientModel):
                         'name':product_line.product_id.name,
                         'date_expected':product_line.date_expected
                         }))
-                info.action_cancel()
+                #info.action_cancel()
                 #info.merge_in = str(picking.name) 
                 info.is_merged = True
             vals={
@@ -105,7 +105,9 @@ class MergePicking(models.TransientModel):
             'carrier_id':stock_info[0].carrier_id.id
             }
             picking = picking_obj.create(vals)
-            info.merge_in = str(picking.name) 
+            cr.execute('select "name" from "stock_move" order by "id" desc limit 1')
+            id_returned = cr.fetchone()
+            info.merge_in = str(id_returned[0]) 
             #info.note = str(info.note)  + str(picking.name)
             
 
