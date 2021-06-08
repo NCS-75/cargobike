@@ -92,6 +92,9 @@ class MergePicking(models.TransientModel):
                 #info.action_cancel()
                 #info.merge_in = str(picking.name) 
                 info.is_merged = True
+                self.env.cr.execute('select reference from stock_move order by id desc limit 1')
+                id_returned = self.env.cr.fetchone()
+                info.merge_in = str(id_returned[0]) 
             vals={
             'partner_id':stock_info[0].partner_id.id,
             'origin':origin,
@@ -105,9 +108,7 @@ class MergePicking(models.TransientModel):
             'carrier_id':stock_info[0].carrier_id.id
             }
             picking = picking_obj.create(vals)
-            self.env.cr.execute('select reference from stock_move order by id desc limit 1')
-            id_returned = self.env.cr.fetchone()
-            info.merge_in = "ok ca passe"#str(id_returned[0]) 
+            
             #info.note = str(info.note)  + str(picking.name)
             
 
