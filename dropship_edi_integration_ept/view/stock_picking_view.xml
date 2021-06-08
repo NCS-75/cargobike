@@ -7,6 +7,8 @@
             <field name="inherit_id" ref="stock.vpicktree"/>
             <field name="arch" type="xml">
                 <field name="state" position="after">
+                    <field name="is_merged" optional="show"/>
+                    <field name="merge_in" optional="show"/>
                     <field name="is_exported" optional="show"/>
                     <field name="is_blocked" optional="show"/>
                 </field>
@@ -18,8 +20,6 @@
             <field name="inherit_id" ref="stock.view_picking_form"/>
             <field name="arch" type="xml">
                 <field name="origin" position="after">
-                    <field name="is_merged" optional="show"/>
-                    <field name="merge_in" optional="show"/>
                     <field name="is_exported" optional="show"/>
                     <field name="is_blocked" optional="show"/>
                 </field>
