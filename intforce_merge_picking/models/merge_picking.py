@@ -96,7 +96,7 @@ class MergePicking(models.TransientModel):
                 id_returned = self.env.cr.fetchone()
                 partitioned_string = str(id_returned[0]).rpartition('/')
                 last_value = int(partitioned_string[2]) + 1
-                last_seq = self.env['stock_move'].search([], order='sequence ASC')[-1].sequence
+                last_seq = self.env['stock.move'].search([], order='sequence ASC')[-1].sequence
                 #info.merge_in = str(partitioned_string[0]) + str(last_value)
                 info.merge_in = last_seq
             vals={
