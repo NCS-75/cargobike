@@ -56,7 +56,7 @@ class StockPicking(models.Model):
                 #csv_writer.writer.writerow(column_headers)
                 commande = 0
                 for picking_id in picking_ids:
-                    if picking_id.scheduled_date <= (datetime.now() + timedelta(days=15)):
+                    if (picking_id.scheduled_date <= (datetime.now() + timedelta(days=15))) and not picking_id.is_merged :
                         order_not_matched = \
                             self.check_mismatch_details_for_dropship_orders(partner_id, picking_id, job)
                         commande = commande + 1
