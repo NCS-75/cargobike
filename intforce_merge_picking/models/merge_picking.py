@@ -95,8 +95,8 @@ class MergePicking(models.TransientModel):
                 self.env.cr.execute('select reference from stock_move order by id desc limit 1')
                 id_returned = self.env.cr.fetchone()
                 partitioned_string = str(id_returned[0]).rpartition('/')
-                last_value = partitioned_string[2]
-                info.merge_in = str(last_value) 
+                last_value = int(partitioned_string[2]) + 1
+                info.merge_in = str(partitioned_string[0]) + str(last_value)
             vals={
             'partner_id':stock_info[0].partner_id.id,
             'origin':origin,
