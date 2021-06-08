@@ -43,7 +43,6 @@
             <field name="arch" type="xml">
                 <field name="origin" position="after">
                     <field name="merge_in" optional="show" style="color:red ! important;"/>
-                    <!--<field name="sale_ids" optional="show"/>-->
                     <field name="is_merged" optional="show" style="color:red ! important;"/>
                 </field>
             </field>
