@@ -91,7 +91,7 @@ class MergePicking(models.TransientModel):
                         'date_expected':product_line.date_expected
                         }))
                 #info.action_cancel()
-                merge_list.append(info.picking_id) 
+                merge_list.append(info.id) 
 
                 #info.merge_in = str(picking.name) 
                 info.is_merged = True
@@ -119,7 +119,7 @@ class MergePicking(models.TransientModel):
                 self.env.cr.execute('select MAX(id) from stock_picking')
                 id_returned = self.env.cr.fetchone()
                 last_value = int(id_returned[0])
-                self.env.cr.execute('update stock_move_line set picking_id =' + str(last_value) + ' where id ='+ str(old_picking) +';')
+                self.env.cr.execute('update stock_move_line set picking_id =' + str(last_value) + ' where picking_id ='+ str(old_picking) +';')
             #info.note = str(info.note)  + str(picking.name)
             
 
