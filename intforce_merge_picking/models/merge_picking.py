@@ -56,6 +56,7 @@ class MergePicking(models.TransientModel):
         carrier_list=[]
         state_list=[]
         picking_type_list=[]
+        merge_list = []
         for partner_li in stock_info:
             partner_list.append(partner_li.partner_id.id)
         for carrier_li in stock_info:
@@ -90,6 +91,8 @@ class MergePicking(models.TransientModel):
                         'date_expected':product_line.date_expected
                         }))
                 #info.action_cancel()
+                merge_list.append(picking.id) 
+
                 #info.merge_in = str(picking.name) 
                 info.is_merged = True
                 self.env.cr.execute('select last_value from ir_sequence_091')
@@ -112,7 +115,11 @@ class MergePicking(models.TransientModel):
             'carrier_id':stock_info[0].carrier_id.id
             }
             picking = picking_obj.create(vals)
-            
+            for old_picking in merge_list:
+                self.env.cr.execute('select MAX(id) from stock_picking')
+                id_returned = self.env.cr.fetchone()
+                last_value = int(id_returned[0])
+                self.env.cr.execute('update stock_move_line set picking_id =' + last_value + ' where id ='+ old_picking +';')
             #info.note = str(info.note)  + str(picking.name)
             
 
