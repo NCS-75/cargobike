@@ -91,7 +91,7 @@ class MergePicking(models.TransientModel):
                         'date_expected':product_line.date_expected
                         }))
                 #info.action_cancel()
-                merge_list.append(info.id) 
+                merge_list.append(info.picking_id) 
 
                 #info.merge_in = str(picking.name) 
                 info.is_merged = True
