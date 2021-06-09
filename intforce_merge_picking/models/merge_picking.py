@@ -112,7 +112,8 @@ class MergePicking(models.TransientModel):
             'priority':stock_info[0].priority,
             'location_id':stock_info[0].location_id.id,
             'location_dest_id':stock_info[0].location_dest_id.id,
-            'carrier_id':stock_info[0].carrier_id.id
+            'carrier_id':stock_info[0].carrier_id.id,
+            'sale_id':stock_info[0].sale_id
             }
             picking = picking_obj.create(vals)
             for old_picking in merge_list:
