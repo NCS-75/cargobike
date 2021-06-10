@@ -115,12 +115,14 @@ class MergePicking(models.TransientModel):
             'carrier_id':stock_info[0].carrier_id.id,
             'sale_id':stock_info[0].sale_id.id
             }
+            #TODO VERIFIE QUE TOUS LES QUANTS SONT BIEN ANNULES SUR LES BP PRECEDENTS VOIR SI POSSIBLE DE LES RECCUP
             picking = picking_obj.create(vals)
-            for old_picking in merge_list:
+            for old_picking in merge_list: #
                 self.env.cr.execute('select MAX(id) from stock_picking')
                 id_returned = self.env.cr.fetchone()
                 last_value = int(id_returned[0])
-                self.env.cr.execute('update stock_move_line set picking_id =' + str(last_value) + ' where picking_id ='+ str(old_picking) +';')
+                self.env.cr.execute('DELETE from stock_move_line where picking_id ='+ str(old_picking) +';')
+                #self.env.cr.execute('update stock_move_line set picking_id =' + str(last_value) + ' where picking_id ='+ str(old_picking) +';')
             #info.note = str(info.note)  + str(picking.name)
             
 
