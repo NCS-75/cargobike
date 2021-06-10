@@ -85,7 +85,7 @@ class MergePicking(models.TransientModel):
                     move_line_val.append((0,0,{
                         'product_id':product_line.product_id.id,
                         'product_uom_qty':product_line.product_uom_qty,
-                        'state':product_line.state,
+                        'state':'confirmed',#product_line.state,
                         'product_uom':product_line.product_id.uom_id.id,
                         'name':product_line.product_id.name,
                         'date_expected':product_line.date_expected
