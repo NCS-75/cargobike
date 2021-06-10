@@ -37,7 +37,7 @@ class MergePicking(models.TransientModel):
             'pick_name':stock.name,
             'partner_id':stock.partner_id.id,
             'origin':stock.origin,
-            'state':"draft",
+            'state':stock.state,
             'carrier_id':stock.carrier_id.id,
             'sale_id': stock.sale_id.id
             }))
@@ -113,7 +113,8 @@ class MergePicking(models.TransientModel):
             'location_id':stock_info[0].location_id.id,
             'location_dest_id':stock_info[0].location_dest_id.id,
             'carrier_id':stock_info[0].carrier_id.id,
-            'sale_id':stock_info[0].sale_id.id
+            'sale_id':stock_info[0].sale_id.id,
+            'state': 'draft'
             }
             #TODO VERIFIE QUE TOUS LES QUANTS SONT BIEN ANNULES SUR LES BP PRECEDENTS VOIR SI POSSIBLE DE LES RECCUP
             picking = picking_obj.create(vals)
