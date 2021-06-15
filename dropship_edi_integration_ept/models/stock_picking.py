@@ -133,7 +133,7 @@ class StockPicking(models.Model):
                                           " path. File has not exported to Supplier's FTP." %
                                           (partner_id.name)})
                 buffer.seek(0)
-                file_data = buffer.read().encode('iso-8859-1')
+                file_data = buffer.read().encode('iso-8859-1', 'ignore')
                 if file_data:
                     vals = {
                         'name': filename,
