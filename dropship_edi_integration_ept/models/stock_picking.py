@@ -259,9 +259,9 @@ class StockPicking(models.Model):
                                         delimiter=partner_id.csv_delimiter)
                 stock_pickng_id = 0
                 for line in reader:
-                    order_ref = line.get('Order_ref') or ''
-                    order_no = line.get('Order_ref') or ''
-                    product_code = line.get('Product_code') or ''
+                    order_ref = line[1] or ''
+                    order_no = line[1] or ''
+                    product_code = line[1] or ''
                     product_qty = line[0] or 'pas de valeur'
                     log_message = 'dans le fichier'
                     self._create_common_log_line(job, csvwriter, log_message)
