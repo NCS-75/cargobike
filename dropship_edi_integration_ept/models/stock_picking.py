@@ -253,8 +253,10 @@ class StockPicking(models.Model):
                 log_message = ''
                 #skip_purchase_order_ids = \
                     #self.check_mismatch_details_for_import_shipment(csvwriter, job, reader)
-                reader = csv.DictReader(open(filename, "rU"),
+                #reader = csv.DictReader(open(filename, "rU"),
                                         delimiter=partner_id.csv_delimiter, fieldnames=None)
+                reader = csv.reader(open(filename, "rU"),
+                                        delimiter=partner_id.csv_delimiter)
                 stock_pickng_id = 0
                 for line in reader:
                     order_ref = line.get('Order_ref') or ''
