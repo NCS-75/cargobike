@@ -266,8 +266,8 @@ class StockPicking(models.Model):
                         stock_pickng_id = self.search([('name', '=', order_ref),
                                                    ('state', 'not in', ['done', 'cancel'])],
                                                   limit=1)
-                    if stock_pickng_id in list(set(skip_purchase_order_ids)):
-                        continue  
+                    #if stock_pickng_id in list(set(skip_purchase_order_ids)):
+                    #    continue  
                     continue                                                  
                     #if line.get('Quantity'):
                     #    try:
