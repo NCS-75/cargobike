@@ -261,11 +261,13 @@ class StockPicking(models.Model):
                     order_no = line.get('Order_ref') or ''
                     product_code = line.get('Product_code') or ''
                     product_qty = line.get('LineQty') or ''
-
+                    log_message = 'dans le fichier'
                     if str(product_qty) == 'E':
+                        log_message = 'premiere ligne'
                         stock_pickng_id = self.search([('name', '=', order_ref),
                                                    ('state', 'not in', ['done', 'cancel'])],
                                                   limit=1)
+                        log_message = stock_pickng_id
                     #if stock_pickng_id in list(set(skip_purchase_order_ids)):
                     #    continue  
                     continue                                                  
