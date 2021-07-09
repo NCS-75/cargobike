@@ -277,7 +277,7 @@ class StockPicking(models.Model):
                         self._create_common_log_line(job, csvwriter, log_message)
                     #if stock_pickng_id in list(set(skip_purchase_order_ids)):
                     #    continue  
-                    continue                                                  
+                    #continue                                                  
                     #if line.get('Quantity'):
                     #    try:
                     #        product_qty = float(line.get('Quantity'))
