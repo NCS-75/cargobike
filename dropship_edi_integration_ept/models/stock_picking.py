@@ -262,11 +262,14 @@ class StockPicking(models.Model):
                     order_ref = line[3] or ''
                     order_no = line[3] or ''
                     product_code = line[2] or ''
-                    product_qty = line[0] or 'pas de valeur'
+                    product_qty = line[0] or ''
+                    num_lot = line[1] or ''
                     log_message = 'dans le fichier'
                     self._create_common_log_line(job, csvwriter, log_message)
                     log_message = 'QUANTITE : ' + str(product_qty) 
                     self._create_common_log_line(job, csvwriter, log_message)
+                    
+                    #Gestion de la première ligne ECTRA
                     if str(product_qty) == 'E':
                         log_message = 'premiere ligne'
                         self._create_common_log_line(job, csvwriter, log_message)
@@ -275,15 +278,19 @@ class StockPicking(models.Model):
                                                   limit=1)
                         log_message = stock_pickng_id
                         self._create_common_log_line(job, csvwriter, log_message)
-                    #if stock_pickng_id in list(set(skip_purchase_order_ids)):
-                    #    continue  
-                    #continue                                                  
-                    #if line.get('Quantity'):
-                    #    try:
-                    #        product_qty = float(line.get('Quantity'))
-                    #    except ValueError:
-                    #        product_qty = False
-                    #tracking_no = line.get('Tracking_no') or ''
+                    
+                    #Gestion des numeros de lot livrés
+                    if product_code == '':
+                        log_message = 'Gestion lot'
+                        self._create_common_log_line(job, csvwriter, log_message)
+                        stock_lot_id = self.search([('name', '=', num_lot)],limit=1)
+                        log_message = 'numéro de lot trouvé : ' + stock_lot_id
+                        self._create_common_log_line(job, csvwriter, log_message)
+                        if stock_lot_id:
+                            stock_quant_id = self.search([('lot_id', '=', stock_lot_id.id)], limit=1)
+                            log_message = 'numéro de quant : ' + stock_quant_id
+                            self._create_common_log_line(job, csvwriter, log_message)
+                    tracking_no = filename
                     
                     log_message = 'REF PRODUIT : ' + product_code
                     self._create_common_log_line(job, csvwriter, log_message)
