@@ -240,15 +240,15 @@ class StockPicking(models.Model):
                                         delimiter=partner_id.csv_delimiter)
                 fieldnames = reader.fieldnames
                 #headers = ['LineQty', 'totalline', 'Product_code', 'Order_ref', 'Tracking_no', 'date']
-                #missing = []
+                missing = []
                 #for field in headers:
                 #    if field not in fieldnames:
                 #        missing.append(field)
-                #if len(missing) > 0:
-                #    log_message = (_("%s is the required field(s) to Import Shipment details.") %
-                #                   (str(missing)[1:-1]))
-                #    self._create_common_log_line(job, csvwriter, log_message)
-                #    continue
+                if len(missing) > 0:
+                    log_message = (_("%s is the required field(s) to Import Shipment details.") %
+                                   (str(missing)[1:-1]))
+                    self._create_common_log_line(job, csvwriter, log_message)
+                    continue
                 log_message = ''
                 skip_purchase_order_ids = \
                     self.check_mismatch_details_for_import_shipment(csvwriter, job, reader)
