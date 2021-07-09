@@ -287,12 +287,16 @@ class StockPicking(models.Model):
                         log_message = 'Gestion lot'
                         self._create_common_log_line(job, csvwriter, log_message)
                         stock_lot_id = self.search([('name', '=', num_lot)],limit=1)
+
                         log_message = 'numéro de lot trouvé : ' + stock_lot_id
                         self._create_common_log_line(job, csvwriter, log_message)
+
                         if stock_lot_id:
                             stock_quant_id = self.search([('lot_id', '=', stock_lot_id.id)], limit=1)
+
                             log_message = 'numéro de quant : ' + stock_quant_id
                             self._create_common_log_line(job, csvwriter, log_message)
+                    continue        
                     tracking_no = filename
                     
                     log_message = 'REF PRODUIT : ' + product_code
@@ -357,7 +361,7 @@ class StockPicking(models.Model):
 
                 for validate_picking_id in list(set(validate_picking_ids)):
                     tracking_no = validate_picking_id.carrier_tracking_ref
-                    validate_picking_id.action_done()
+                    #validate_picking_id.action_done()
                     log_message = (_("Dropship order validated successfully."))
                     self._create_common_log_line(job, csvwriter, log_message,
                                                  validate_picking_id.origin, tracking_no)
