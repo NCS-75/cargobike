@@ -262,12 +262,15 @@ class StockPicking(models.Model):
                     product_code = line.get('Product_code') or ''
                     product_qty = line.get('LineQty') or ''
                     log_message = 'dans le fichier'
+                    self._create_common_log_line(job, csvwriter, log_message)
                     if str(product_qty) == 'E':
                         log_message = 'premiere ligne'
+                        self._create_common_log_line(job, csvwriter, log_message)
                         stock_pickng_id = self.search([('name', '=', order_ref),
                                                    ('state', 'not in', ['done', 'cancel'])],
                                                   limit=1)
                         log_message = stock_pickng_id
+                        self._create_common_log_line(job, csvwriter, log_message)
                     #if stock_pickng_id in list(set(skip_purchase_order_ids)):
                     #    continue  
                     continue                                                  
