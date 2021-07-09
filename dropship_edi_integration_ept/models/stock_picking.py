@@ -307,16 +307,16 @@ class StockPicking(models.Model):
                                                              product_vendor_code_id.product_id.id)
                             stock_move_id.move_line_ids.write({'qty_done': product_qty})
                             validate_picking_ids.append(stock_move_id.picking_id)
-                            if tracking_no:
-                                if stock_move_id.picking_id.carrier_tracking_ref:
-                                    stock_move_id.picking_id.write(
-                                        {'carrier_tracking_ref': str(
-                                            '%s,%s' %
-                                            (stock_move_id.picking_id.carrier_tracking_ref,
-                                             tracking_no))})
-                                else:
-                                    stock_move_id.picking_id.write(
-                                        {'carrier_tracking_ref': tracking_no})
+                            # if tracking_no:
+                            #     if stock_move_id.picking_id.carrier_tracking_ref:
+                            #         stock_move_id.picking_id.write(
+                            #             {'carrier_tracking_ref': str(
+                            #                 '%s,%s' %
+                            #                 (stock_move_id.picking_id.carrier_tracking_ref,
+                            #                  tracking_no))})
+                            #     else:
+                            #         stock_move_id.picking_id.write(
+                            #             {'carrier_tracking_ref': tracking_no})
                     else:
                         product_id = self.env['product.product'].search([
                             ('default_code', '=', product_code)], limit=1)
