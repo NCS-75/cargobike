@@ -292,7 +292,8 @@ class StockPicking(models.Model):
                         self._create_common_log_line(job, csvwriter, log_message)
 
                         if stock_lot_id:
-                            stock_quant_id = self.env['stock.quant'].search([('lot_id', '=', stock_lot_id.id)], limit=1)
+                            stock_quant_id = self.env['stock.quant'].search([('lot_id', '=', stock_lot_id.id),
+                                                   ('location_id', '=', 47)], limit=1)
 
                             log_message = 'numéro de quant : ' + str(stock_quant_id.id) + 'réservation : ' + str(stock_quant_id.reserved_quantity)
                             self._create_common_log_line(job, csvwriter, log_message)
