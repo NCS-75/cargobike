@@ -249,6 +249,7 @@ class StockPicking(models.Model):
                 #                   (str(missing)[1:-1]))
                 #    self._create_common_log_line(job, csvwriter, log_message)
                 #    continue
+                log_message = ''
                 skip_purchase_order_ids = \
                     self.check_mismatch_details_for_import_shipment(csvwriter, job, reader)
                 reader = csv.DictReader(open(filename, "rU"),
