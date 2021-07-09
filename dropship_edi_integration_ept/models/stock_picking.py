@@ -260,7 +260,7 @@ class StockPicking(models.Model):
                     order_ref = line.get('Order_ref') or ''
                     order_no = line.get('Order_ref') or ''
                     product_code = line.get('Product_code') or ''
-                    product_qty = ine.get('LineQty') or ''
+                    product_qty = line.get('LineQty') or ''
 
                     if str(product_qty) == 'E':
                         stock_pickng_id = self.search([('name', '=', order_ref),
