@@ -224,7 +224,7 @@ class StockPicking(models.Model):
 
             for filename, server_filename in zip(filenames, server_filenames):
                 buffer = StringIO()
-                field_name = ['Order_ref', 'Product_code', 'Log_details', 'Tracking_no']
+                field_name = ['LineQty', 'totalline', 'Product_code', 'Order_ref', 'Tracking_no', 'date']
                 csvwriter = DictWriter(buffer, field_name,
                                        delimiter=partner_id.csv_delimiter or ';')
                 csvwriter.writer.writerow(field_name)
