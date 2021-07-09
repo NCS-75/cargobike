@@ -285,7 +285,8 @@ class StockPicking(models.Model):
                     #        product_qty = False
                     #tracking_no = line.get('Tracking_no') or ''
                     
-
+                    log_message = 'REF PRODUIT : ' + product_code
+                    self._create_common_log_line(job, csvwriter, log_message)
                     product_vendor_code_id = self.env['product.product'].search(
                         [('default_code', '=', product_code)], limit=1)
                     log_message = product_vendor_code_id
