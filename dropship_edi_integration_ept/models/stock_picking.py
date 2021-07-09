@@ -239,7 +239,7 @@ class StockPicking(models.Model):
                 reader = csv.DictReader(open(filename, "rU"),
                                         delimiter=partner_id.csv_delimiter)
                 fieldnames = reader.fieldnames
-                headers = ['LineQty', 'totalline', 'Product_code', 'Order_ref', 'Tracking_no', 'date']
+                #headers = ['LineQty', 'totalline', 'Product_code', 'Order_ref', 'Tracking_no', 'date']
                 #missing = []
                 #for field in headers:
                 #    if field not in fieldnames:
