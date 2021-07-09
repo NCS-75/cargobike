@@ -276,6 +276,9 @@ class StockPicking(models.Model):
                         stock_pickng_id = self.search([('name', '=', order_ref),
                                                    ('state', 'not in', ['done', 'cancel'])],
                                                   limit=1)
+                        #if not stock_pickng_id:
+                         #   continue
+
                         log_message = stock_pickng_id
                         self._create_common_log_line(job, csvwriter, log_message)
                     
