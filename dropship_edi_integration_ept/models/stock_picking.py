@@ -311,7 +311,7 @@ class StockPicking(models.Model):
                                                (stock_move_id.product_uom_qty, product_qty))
                                 self._create_common_log_line(job, csvwriter, log_message, order_no,
                                                              '', product_code,
-                                                             product_vendor_code_id.product_id.id)
+                                                             product_vendor_code_id.id)
                             stock_move_id.move_line_ids.write({'qty_done': product_qty})
                             validate_picking_ids.append(stock_move_id.picking_id)
                             # if tracking_no:
