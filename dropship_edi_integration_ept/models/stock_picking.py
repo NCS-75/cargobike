@@ -288,13 +288,13 @@ class StockPicking(models.Model):
                         self._create_common_log_line(job, csvwriter, log_message)
                         stock_lot_id = self.search([('name', '=', num_lot)],limit=1)
 
-                        log_message = 'numéro de lot trouvé : ' + stock_lot_id
+                        log_message = 'numéro de lot trouvé : ' + str(stock_lot_id.id)
                         self._create_common_log_line(job, csvwriter, log_message)
 
                         if stock_lot_id:
                             stock_quant_id = self.search([('lot_id', '=', stock_lot_id.id)], limit=1)
 
-                            log_message = 'numéro de quant : ' + stock_quant_id
+                            log_message = 'numéro de quant : ' + str(stock_quant_id.id)
                             self._create_common_log_line(job, csvwriter, log_message)
                     continue        
                     tracking_no = filename
