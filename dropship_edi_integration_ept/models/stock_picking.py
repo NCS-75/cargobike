@@ -263,6 +263,8 @@ class StockPicking(models.Model):
                     product_qty = line.get('LineQty') or ''
                     log_message = 'dans le fichier'
                     self._create_common_log_line(job, csvwriter, log_message)
+                    log_message = str(product_qty) 
+                    self._create_common_log_line(job, csvwriter, log_message)
                     if str(product_qty) == 'E':
                         log_message = 'premiere ligne'
                         self._create_common_log_line(job, csvwriter, log_message)
