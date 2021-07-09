@@ -240,7 +240,7 @@ class StockPicking(models.Model):
                 reader = csv.DictReader(open(filename, "rU"),
                                         delimiter=partner_id.csv_delimiter)
                 fieldnames = reader.fieldnames
-                #headers = ['LineQty', 'totalline', 'Product_code', 'Order_ref', 'Tracking_no', 'date']
+                headers = ['LineQty', 'totalline', 'Product_code', 'Order_ref', 'Tracking_no', 'date']
                 missing = []
                 #for field in headers:
                 #    if field not in fieldnames:
@@ -251,7 +251,7 @@ class StockPicking(models.Model):
                     self._create_common_log_line(job, csvwriter, log_message)
                     continue
                 log_message = ''
-                skip_purchase_order_ids = \
+                #skip_purchase_order_ids = \
                     self.check_mismatch_details_for_import_shipment(csvwriter, job, reader)
                 reader = csv.DictReader(open(filename, "rU"),
                                         delimiter=partner_id.csv_delimiter)
