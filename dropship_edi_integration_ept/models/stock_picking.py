@@ -260,7 +260,7 @@ class StockPicking(models.Model):
                     order_ref = line.get('Order_ref') or ''
                     order_no = line.get('Order_ref') or ''
                     product_code = line.get('Product_code') or ''
-                    product_qty = line.get('LineQty') or ''
+                    product_qty = line[0] or ''
                     log_message = 'dans le fichier'
                     self._create_common_log_line(job, csvwriter, log_message)
                     log_message = str(product_qty) 
