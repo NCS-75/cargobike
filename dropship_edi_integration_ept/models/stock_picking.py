@@ -239,36 +239,42 @@ class StockPicking(models.Model):
                 reader = csv.DictReader(open(filename, "rU"),
                                         delimiter=partner_id.csv_delimiter)
                 fieldnames = reader.fieldnames
-                headers = ['Order_no', 'Picking_ref', 'Product_code', 'Quantity', 'Tracking_no']
-                missing = []
-                for field in headers:
-                    if field not in fieldnames:
-                        missing.append(field)
-                if len(missing) > 0:
-                    log_message = (_("%s is the required field(s) to Import Shipment details.") %
-                                   (str(missing)[1:-1]))
-                    self._create_common_log_line(job, csvwriter, log_message)
-                    continue
+                headers = ['LineQty', 'totalline', 'Product_code', 'Order_ref', 'Tracking_no', 'date']
+                #missing = []
+                #for field in headers:
+                #    if field not in fieldnames:
+                #        missing.append(field)
+                #if len(missing) > 0:
+                #    log_message = (_("%s is the required field(s) to Import Shipment details.") %
+                #                   (str(missing)[1:-1]))
+                #    self._create_common_log_line(job, csvwriter, log_message)
+                #    continue
                 skip_purchase_order_ids = \
                     self.check_mismatch_details_for_import_shipment(csvwriter, job, reader)
                 reader = csv.DictReader(open(filename, "rU"),
                                         delimiter=partner_id.csv_delimiter)
+                stock_pickng_id = 0
                 for line in reader:
-                    order_ref = line.get('Picking_ref') or ''
-                    order_no = line.get('Order_no') or ''
+                    order_ref = line.get('Order_ref') or ''
+                    order_no = line.get('Order_ref') or ''
                     product_code = line.get('Product_code') or ''
-                    product_qty = 0.0
-                    if line.get('Quantity'):
-                        try:
-                            product_qty = float(line.get('Quantity'))
-                        except ValueError:
-                            product_qty = False
-                    tracking_no = line.get('Tracking_no') or ''
-                    stock_pickng_id = self.search([('name', '=', order_ref),
+                    product_qty = ine.get('LineQty') or ''
+
+                    if str(product_qty) == 'E':
+                        stock_pickng_id = self.search([('name', '=', order_ref),
                                                    ('state', 'not in', ['done', 'cancel'])],
                                                   limit=1)
                     if stock_pickng_id in list(set(skip_purchase_order_ids)):
-                        continue
+                        continue  
+                    continue                                                  
+                    #if line.get('Quantity'):
+                    #    try:
+                    #        product_qty = float(line.get('Quantity'))
+                    #    except ValueError:
+                    #        product_qty = False
+                    #tracking_no = line.get('Tracking_no') or ''
+                    
+
                     product_vendor_code_id = self.env['product.supplierinfo'].search(
                         [('product_code', '=', product_code)], limit=1)
                     if product_vendor_code_id:
