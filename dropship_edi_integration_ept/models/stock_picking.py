@@ -286,13 +286,13 @@ class StockPicking(models.Model):
                     #tracking_no = line.get('Tracking_no') or ''
                     
 
-                    product_vendor_code_id = self.env['product.supplierinfo'].search(
-                        [('product_code', '=', product_code)], limit=1)
+                    product_vendor_code_id = self.env['product.product'].search(
+                        [('default_code', '=', product_code)], limit=1)
                     log_message = product_vendor_code_id
                     self._create_common_log_line(job, csvwriter, log_message)
                     if product_vendor_code_id:
                         stock_move_id = self.env['stock.move'].search(
-                            [('product_id', '=', product_vendor_code_id.product_id.id),
+                            [('product_id', '=', product_vendor_code_id.id),
                              ('origin', '=', stock_pickng_id.origin)], limit=1)
                         log_message = stock_move_id
                         self._create_common_log_line(job, csvwriter, log_message)
