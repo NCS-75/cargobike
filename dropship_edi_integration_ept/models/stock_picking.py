@@ -273,7 +273,7 @@ class StockPicking(models.Model):
                     
                     #Gestion de la première ligne ECTRA
                     if str(product_qty) == 'E':
-                        del lot_existants[:]
+                        #del lot_existants[:]
                         log_message = 'premiere ligne'
                         self._create_common_log_line(job, csvwriter, log_message)
                         stock_pickng_id = self.search([('name', '=', order_ref),
