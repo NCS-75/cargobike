@@ -362,7 +362,7 @@ class StockPicking(models.Model):
 
                 for validate_picking_id in list(set(validate_picking_ids)):
                     tracking_no = validate_picking_id.carrier_tracking_ref
-                    #validate_picking_id.action_done()
+                    validate_picking_id.action_done()
                     log_message = (_("Dropship order validated successfully."))
                     self._create_common_log_line(job, csvwriter, log_message,
                                                  validate_picking_id.origin, tracking_no)
