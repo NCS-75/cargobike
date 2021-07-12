@@ -321,8 +321,8 @@ class StockPicking(models.Model):
                                                    ('location_id', '=', 47)], limit=1)
                             log_message = 'numéro de série : ' + str(stock_lot_id.name) +  ' numéro de quant : ' + str(stock_quant_id.id) + ' réservation : ' + str(stock_quant_id.reserved_quantity)
                             self._create_common_log_line(job, csvwriter, log_message)
-                        
-                        if stock_quant_id.reserved_quantity == 0:
+                            continue
+                        #if stock_quant_id.reserved_quantity == 0:
                             
 
 
@@ -346,7 +346,7 @@ class StockPicking(models.Model):
                         
 
 
-                        continue        
+                                
                     tracking_no = filename
                     
                     log_message = 'REF PRODUIT : ' + product_code
