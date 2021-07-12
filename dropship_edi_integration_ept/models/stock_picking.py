@@ -315,7 +315,7 @@ class StockPicking(models.Model):
                             else:
                                 log_message = 'On doit inverser lot avec autre BL'
                                 #on appelle la fonction de SWAP des Num lot
-                                #swap_num_lot(stock_lot_id.id,)
+                                swap_num_lot(stock_lot_id.id,ids_returned[0],order_ref_prev)
 
                             self._create_common_log_line(job, csvwriter, log_message)
 
@@ -445,8 +445,10 @@ class StockPicking(models.Model):
         if stock_move_line_old_id:
             id_temp1 = stock_move_line_old_id.id
             id_temp2 = stock_move_line_import_id.id
-            stock_move_line_old_id.id = id_temp2
-            stock_move_line_import_id.id = id_temp1
+            log_message = 'id_temp1 : ' + str(id_temp1) + ' id_temp2 : ' +id_temp2
+            self._create_common_log_line(job, csvwriter, log_message)
+            #stock_move_line_old_id.id = id_temp2
+            #stock_move_line_import_id.id = id_temp1
             return True
         return False
 
