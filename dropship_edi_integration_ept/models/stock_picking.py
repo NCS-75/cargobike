@@ -308,12 +308,14 @@ class StockPicking(models.Model):
                             #on cherche tous les lot associé au BL en auto
                             self.env.cr.execute("select id, lot_id from stock_move_line where product_id= " + str(stock_lot_id.product_id.id) + " and reference='" + str(order_ref_prev) + "' and importednum IS NOT TRUE")
                             ids_returned = self.env.cr.fetchall()
-                            log_message = 'lot retournés : ' + str(ids_returned) 
+                            log_message = 'lot retournés : ' + str(ids_returned[0]) 
                             self._create_common_log_line(job, csvwriter, log_message)
                             if stock_lot_id.id in ids_returned:
                                 log_message = 'Déjà affecté au Bon BL'
                             else:
                                 log_message = 'On doit inverser lot avec autre BL'
+                                #on appelle la fonction de SWAP des Num lot
+                                #swap_num_lot(stock_lot_id.id,)
 
                             self._create_common_log_line(job, csvwriter, log_message)
 
@@ -432,6 +434,22 @@ class StockPicking(models.Model):
                                      attachment_ids=attachment.ids)
                 buffer.close()
         return True
+
+    def swap_num_lot(self, lot_import_id, lot_existant_id, reference):
+        stock_move_line_import_id = self.env['stock.move.line'].search(
+                            [('lot_id', '=', lot_import_id),
+                             ('location_id', '=', 47),], limit=1)
+        stock_move_line_old_id = self.env['stock.move.line'].search(
+                            [('lot_id', '=', lot_existant_id),
+                             ('location_id', '=', 47),('reference', '=', reference)], limit=1)
+        if stock_move_line_old_id:
+            id_temp1 = stock_move_line_old_id.id
+            id_temp2 = stock_move_line_import_id.id
+            stock_move_line_old_id.id = id_temp2
+            stock_move_line_import_id.id = id_temp1
+            return True
+        return False
+
 
     def check_mismatch_details_for_import_shipment(self, csvwriter, job, data):
         """
