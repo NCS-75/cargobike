@@ -293,17 +293,32 @@ class StockPicking(models.Model):
                         log_message = 'Gestion lot'
                         self._create_common_log_line(job, csvwriter, log_message)
                         stock_lot_id = self.env['stock.production.lot'].search([('name', '=', num_lot)],limit=1)
-
                         log_message = 'numéro de lot trouvé : ' + str(stock_lot_id.id)
                         self._create_common_log_line(job, csvwriter, log_message)
 
+
+                        #on regarde dans les quants si il y a une réservation sur le numéro de lot
                         if stock_lot_id:
                             stock_quant_id = self.env['stock.quant'].search([('lot_id', '=', stock_lot_id.id),
                                                    ('location_id', '=', 47)], limit=1)
-
                             log_message = 'numéro de série : ' + str(stock_lot_id.name) +  ' numéro de quant : ' + str(stock_quant_id.id) + ' réservation : ' + str(stock_quant_id.reserved_quantity)
                             self._create_common_log_line(job, csvwriter, log_message)
                         
+                        if stock_quant_id.reserved_quantity == 0:
+                            move_line_lot_reserve_id = self.env['stock.move.line'].search([('product_id', '=', stock_lot_id.product_id.id),
+                                                   ('location_id', '=', 47),('location_dest_id','=',9), ('reference','=', order_ref_prev)], limit=1)
+                            
+                            # On regarde su le BL que le produit n'a pas un num affecté
+                            if move_line_lot_reserve_id:
+                                lot_existants.append(move_line_lot_reserve_id.lot_id) #numero lot
+                                lot_existants.append(move_line_lot_reserve_id.id) #numero move_line
+                                log_message = 'numéro de lot : ' + str(move_line_lot_reserve_id.lot_id) +  ' numéro de ligne : ' + str(move_line_lot_reserve_id.id)
+                            
+
+                        #if stock_quant_id.reserved_quantity > 0:
+
+
+                            
                         #On teste si le numéro de lot correspond au BL qu'il est dans le stock ectra et qu'il part bien chez le client
                         num_lot_exist_id = self.env['stock.move.line'].search([('lot_id', '=', stock_lot_id.id),
                                                    ('location_id', '=', 47),('location_dest_id','=',9)], limit=1)
@@ -315,21 +330,7 @@ class StockPicking(models.Model):
                         move_line_lot_reserve_ids = self.env['stock.move.line'].search([('product_id', '=', stock_lot_id.product_id.id),
                                                    ('location_id', '=', 47),('location_dest_id','=',9)], limit=1)
 
-                        if num_lot_exist_id:
-                            log_message = 'EXIST : ' + str(num_lot_exist_id) 
-                        else:
-                            #log_message = 'Ce numéro de lot n\'est pas réservé' + str(stock_lot_id.name) 
-                            #self._create_common_log_line(job, csvwriter, log_message)
-                            #on ajoute notre numéro dans la liste
-                            lot_existants.append(stock_lot_id)
-                             
-                            # on teste si le lot ectra est dans les lots déjà assignés
-                            if stock_lot_id in move_line_lot_reserve_ids.values():
-                                log_message = 'lot déjà assigné :' + str(move_line_lot_reserve_ids)
-                            else:
-                                log_message = 'lot non assigné' 
-                            
-                            self._create_common_log_line(job, csvwriter, log_message)
+                        
 
 
                         continue        
