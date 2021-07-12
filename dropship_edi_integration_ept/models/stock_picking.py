@@ -308,7 +308,8 @@ class StockPicking(models.Model):
                             #on cherche tous les lot associé au BL en auto
                             self.env.cr.execute("select id, lot_id from stock_move_line where product_id= " + str(stock_lot_id.product_id.id) + " and reference='" + str(order_ref_prev) + "'")
                             ids_returned = self.env.cr.fetchall()
-
+                            log_message = 'lot retournés : ' + ids_returned
+                            self._create_common_log_line(job, csvwriter, log_message)
                             if stock_lot_id.id in ids_returned:
                                 log_message = 'Déjà affecté au Bon BL'
                             else:
@@ -317,31 +318,8 @@ class StockPicking(models.Model):
                             self._create_common_log_line(job, csvwriter, log_message)
 
 
-                            stock_quant_id = self.env['stock.quant'].search([('lot_id', '=', stock_lot_id.id),
-                                                   ('location_id', '=', 47)], limit=1)
-                            log_message = 'numéro de série : ' + str(stock_lot_id.name) +  ' numéro de quant : ' + str(stock_quant_id.id) + ' réservation : ' + str(stock_quant_id.reserved_quantity)
-                            self._create_common_log_line(job, csvwriter, log_message)
+
                             continue
-                        #if stock_quant_id.reserved_quantity == 0:
-                            
-
-
-                            
-
-                        #if stock_quant_id.reserved_quantity > 0:
-
-
-                            
-                        #On teste si le numéro de lot correspond au BL qu'il est dans le stock ectra et qu'il part bien chez le client
-                        #num_lot_exist_id = self.env['stock.move.line'].search([('lot_id', '=', stock_lot_id.id),
-                         #                          ('location_id', '=', 47),('location_dest_id','=',9)], limit=1)
-
-                        #on réccupère tous les produits avec un numéro de lot affecté
-                        #move_line_lot_reserve_ids = self.env['stock.move.line'].search([('product_id', '=', stock_lot_id.product_id.id),
-                        #                           ('location_id', '=', 47),('location_dest_id','=',9), ('reference','=', order_ref_prev)], limit=1)
-
-                        #move_line_lot_reserve_ids = self.env['stock.move.line'].search([('product_id', '=', stock_lot_id.product_id.id),
-                         #                          ('location_id', '=', 47),('location_dest_id','=',9)], limit=1)
 
                         
 
