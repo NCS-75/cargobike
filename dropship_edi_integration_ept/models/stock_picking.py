@@ -310,7 +310,7 @@ class StockPicking(models.Model):
 
                         #on réccupère tous les produits avec un numéro de lot affecté
                         #move_line_lot_reserve_ids = self.env['stock.move.line'].search([('product_id', '=', stock_lot_id.product_id.id),
-                                                   ('location_id', '=', 47),('location_dest_id','=',9), ('reference','=', order_ref_prev)], limit=1)
+                        #                           ('location_id', '=', 47),('location_dest_id','=',9), ('reference','=', order_ref_prev)], limit=1)
 
                         move_line_lot_reserve_ids = self.env['stock.move.line'].search([('product_id', '=', stock_lot_id.product_id.id),
                                                    ('location_id', '=', 47),('location_dest_id','=',9)], limit=1)
