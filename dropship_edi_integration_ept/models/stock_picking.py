@@ -258,6 +258,7 @@ class StockPicking(models.Model):
                 reader = csv.reader(open(filename, "rU"),
                                         delimiter=partner_id.csv_delimiter)
                 stock_pickng_id = 0
+                order_ref_prev = ''
                 for line in reader:
                     order_ref = line[3] or ''
                     order_no = line[3] or ''
@@ -276,6 +277,7 @@ class StockPicking(models.Model):
                         stock_pickng_id = self.search([('name', '=', order_ref),
                                                    ('state', 'not in', ['done', 'cancel'])],
                                                   limit=1)
+                        order_ref_prev = order_ref
                         #if not stock_pickng_id:
                          #   continue
 
@@ -309,12 +311,12 @@ class StockPicking(models.Model):
                     if product_vendor_code_id:
                         stock_move_id = self.env['stock.move'].search(
                             [('product_id', '=', product_vendor_code_id.id),
-                             ('origin', '=', stock_pickng_id.origin)], limit=1)
+                             ('origin', '=', stock_pickng_id.origin),('reference', '=', order_ref_prev)], limit=1)
                         log_message = stock_move_id
                         self._create_common_log_line(job, csvwriter, log_message)
                         if stock_move_id:
                             if stock_move_id.product_uom_qty < float(product_qty):
-                                log_message = (_("Product ordered quantity %s and shipped"
+                                log_message = (_("1 - Product ordered quantity %s and shipped"
                                                  " quantity %s") %
                                                (stock_move_id.product_uom_qty, product_qty))
                                 self._create_common_log_line(job, csvwriter, log_message, order_no,
@@ -341,7 +343,7 @@ class StockPicking(models.Model):
                                  ('origin', '=', stock_pickng_id.origin)], limit=1)
                             if stock_move_id:
                                 if stock_move_id.product_uom_qty < float(product_qty):
-                                    log_message = (_("Product ordered quantity %s and"
+                                    log_message = (_("2 - Product ordered quantity %s and"
                                                      " shipped quantity %s") %
                                                    (stock_move_id.product_uom_qty, product_qty))
                                     self._create_common_log_line(job, csvwriter, log_message,
