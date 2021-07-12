@@ -297,7 +297,7 @@ class StockPicking(models.Model):
 
                             log_message = 'numéro de quant : ' + str(stock_quant_id.id) + 'réservation : ' + str(stock_quant_id.reserved_quantity)
                             self._create_common_log_line(job, csvwriter, log_message)
-                    continue        
+                        continue        
                     tracking_no = filename
                     
                     log_message = 'REF PRODUIT : ' + product_code
