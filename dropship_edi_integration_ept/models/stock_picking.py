@@ -301,14 +301,20 @@ class StockPicking(models.Model):
                             self._create_common_log_line(job, csvwriter, log_message)
                         
                         #On teste si le numéro de lot correspond au BL qu'il est dans le stock ectra et qu'il part bien chez le client
-
                         num_lot_exist_id = self.env['stock.move.line'].search([('lot_id', '=', stock_lot_id.id),
                                                    ('location_id', '=', 47),('location_dest_id','=',9)], limit=1)
+
+                        #on réccupère tous les produits avec un numéro de lot affecté
+                        move_line_lot_reserve_ids = self.env['stock.move.line'].search([('product_id', '=', stock_lot_id.product_id),
+                                                   ('location_id', '=', 47),('location_dest_id','=',9), ('reference','=', order_ref_prev)], limit=1)
+
                         if num_lot_exist_id:
                             log_message = 'EXIST : ' + str(num_lot_exist_id) 
                         else:
-                            log_message = 'Pas ne numéro de lot trouvé' + str(num_lot_exist_id) 
-                        self._create_common_log_line(job, csvwriter, log_message)
+                            log_message = 'Ce numéro de lot n\'est pas réservé' + str(stock_lot_id.name) 
+                            self._create_common_log_line(job, csvwriter, log_message)
+                            log_message = 'lot déjà assignéq' + str(move_line_lot_reserve_ids) 
+                            self._create_common_log_line(job, csvwriter, log_message)
 
 
                         continue        
