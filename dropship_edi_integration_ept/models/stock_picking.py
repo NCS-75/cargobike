@@ -306,14 +306,14 @@ class StockPicking(models.Model):
                         
                         if stock_quant_id.reserved_quantity == 0:
                             move_line_lot_reserve_id = self.env['stock.move.line'].search([('product_id', '=', stock_lot_id.product_id.id),
-                                                   ('location_id', '=', 47),('location_dest_id','=',9)], limit=1)
-                            log_message = 'QUANT Reserve 0 : ' 
+                                                   ('location_id', '=', 47),('location_dest_id','=',9), ('reference','=', order_ref_prev)], limit=1)
+                            log_message = 'QUANT Reserve 0 et REFERENCE BL : ' + , str(order_ref_prev) 
                             self._create_common_log_line(job, csvwriter, log_message)
                             # On regarde su le BL que le produit n'a pas un num affecté
                             if move_line_lot_reserve_id:
                                 lot_existants.append(move_line_lot_reserve_id.lot_id) #numero lot
                                 lot_existants.append(move_line_lot_reserve_id.id) #numero move_line
-                                log_message = 'numéro de lot : ' + str(move_line_lot_reserve_id.lot_id) +  ' numéro de ligne : ' + str(move_line_lot_reserve_id.id)
+                                log_message = 'numéro de lot : ' + str(move_line_lot_reserve_id.lot_id.id) +  ' numéro de ligne : ' + str(move_line_lot_reserve_id.id)
                                 self._create_common_log_line(job, csvwriter, log_message)
                             
 
