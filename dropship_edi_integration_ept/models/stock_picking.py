@@ -259,6 +259,7 @@ class StockPicking(models.Model):
                                         delimiter=partner_id.csv_delimiter)
                 stock_pickng_id = 0
                 order_ref_prev = ''
+                lot_existants = []
                 for line in reader:
                     order_ref = line[3] or ''
                     order_no = line[3] or ''
@@ -272,6 +273,7 @@ class StockPicking(models.Model):
                     
                     #Gestion de la première ligne ECTRA
                     if str(product_qty) == 'E':
+                        del lot_existants[:]
                         log_message = 'premiere ligne'
                         self._create_common_log_line(job, csvwriter, log_message)
                         stock_pickng_id = self.search([('name', '=', order_ref),
@@ -286,6 +288,8 @@ class StockPicking(models.Model):
                     
                     #Gestion des numeros de lot livrés
                     if product_code == '':
+                        
+                        
                         log_message = 'Gestion lot'
                         self._create_common_log_line(job, csvwriter, log_message)
                         stock_lot_id = self.env['stock.production.lot'].search([('name', '=', num_lot)],limit=1)
@@ -305,15 +309,26 @@ class StockPicking(models.Model):
                                                    ('location_id', '=', 47),('location_dest_id','=',9)], limit=1)
 
                         #on réccupère tous les produits avec un numéro de lot affecté
-                        move_line_lot_reserve_ids = self.env['stock.move.line'].search([('product_id', '=', stock_lot_id.product_id.id),
+                        #move_line_lot_reserve_ids = self.env['stock.move.line'].search([('product_id', '=', stock_lot_id.product_id.id),
                                                    ('location_id', '=', 47),('location_dest_id','=',9), ('reference','=', order_ref_prev)], limit=1)
+
+                        move_line_lot_reserve_ids = self.env['stock.move.line'].search([('product_id', '=', stock_lot_id.product_id.id),
+                                                   ('location_id', '=', 47),('location_dest_id','=',9)], limit=1)
 
                         if num_lot_exist_id:
                             log_message = 'EXIST : ' + str(num_lot_exist_id) 
                         else:
-                            log_message = 'Ce numéro de lot n\'est pas réservé' + str(stock_lot_id.name) 
-                            self._create_common_log_line(job, csvwriter, log_message)
-                            log_message = 'lot déjà assignéq' + str(move_line_lot_reserve_ids) 
+                            #log_message = 'Ce numéro de lot n\'est pas réservé' + str(stock_lot_id.name) 
+                            #self._create_common_log_line(job, csvwriter, log_message)
+                            #on ajoute notre numéro dans la liste
+                            lot_existants.append(stock_lot_id)
+                             
+                            # on teste si le lot ectra est dans les lots déjà assignés
+                            if stock_lot_id in move_line_lot_reserve_ids.values():
+                                log_message = 'lot déjà assigné :' + str(move_line_lot_reserve_ids)
+                            else:
+                                log_message = 'lot non assigné' 
+                            
                             self._create_common_log_line(job, csvwriter, log_message)
 
 
