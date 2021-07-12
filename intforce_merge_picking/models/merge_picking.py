@@ -18,7 +18,7 @@ class StockPicking(models.Model):
 
 class StockMoveLine(models.Model):
     _inherit = "stock.move.line"
-    is_merged = fields.Boolean(string="Impoted num", default=False)
+    importednum = fields.Boolean(string="Imported num", default=False)
 
 
 class MergePicking(models.TransientModel):
