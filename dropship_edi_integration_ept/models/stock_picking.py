@@ -314,6 +314,7 @@ class StockPicking(models.Model):
                                 lot_existants.append(move_line_lot_reserve_id.lot_id) #numero lot
                                 lot_existants.append(move_line_lot_reserve_id.id) #numero move_line
                                 log_message = 'numéro de lot : ' + str(move_line_lot_reserve_id.lot_id) +  ' numéro de ligne : ' + str(move_line_lot_reserve_id.id)
+                                self._create_common_log_line(job, csvwriter, log_message)
                             
 
                         #if stock_quant_id.reserved_quantity > 0:
