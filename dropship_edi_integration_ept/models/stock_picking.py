@@ -259,7 +259,7 @@ class StockPicking(models.Model):
                                         delimiter=partner_id.csv_delimiter)
                 stock_pickng_id = 0
                 order_ref_prev = ''
-                lot_existants = []
+                lot_traites = []
                 for line in reader:
                     order_ref = line[3] or ''
                     order_no = line[3] or ''
@@ -291,30 +291,41 @@ class StockPicking(models.Model):
                         
                         
                         log_message = 'Gestion lot'
+                        #Numero du lot à importer
                         self._create_common_log_line(job, csvwriter, log_message)
                         stock_lot_id = self.env['stock.production.lot'].search([('name', '=', num_lot)],limit=1)
                         log_message = 'numéro de lot trouvé : ' + str(stock_lot_id.id)
                         self._create_common_log_line(job, csvwriter, log_message)
+                        #quant associé au lot importé
+                        stock_quant_id = self.env['stock.quant'].search([('lot_id', '=', stock_lot_id.id),
+                                                   ('location_id', '=', 47)], limit=1)
+                        log_message = 'numéro de série : ' + str(stock_lot_id.name) +  ' numéro de quant : ' + str(stock_quant_id.id) + ' réservation : ' + str(stock_quant_id.reserved_quantity)
+                        self._create_common_log_line(job, csvwriter, log_message)
 
 
-                        #on regarde dans les quants si il y a une réservation sur le numéro de lot
+                        
                         if stock_lot_id:
+                            #on cherche tous les lot associé au BL en auto
+                            self.env.cr.execute('select id, lot_id from stock_move_line where product_id= ' + stock_lot_id.product_id.id + ' and reference="' + order_ref_prev + '" ')
+                            ids_returned = self.env.cr.fetchall()
+
+                            if stock_lot_id.id in ids_returned:
+                                log_message = 'Déjà affecté au Bon BL'
+                            else:
+                                log_message = 'On doit inverser lot avec autre BL'
+                                
+                            self._create_common_log_line(job, csvwriter, log_message)
+
+
                             stock_quant_id = self.env['stock.quant'].search([('lot_id', '=', stock_lot_id.id),
                                                    ('location_id', '=', 47)], limit=1)
                             log_message = 'numéro de série : ' + str(stock_lot_id.name) +  ' numéro de quant : ' + str(stock_quant_id.id) + ' réservation : ' + str(stock_quant_id.reserved_quantity)
                             self._create_common_log_line(job, csvwriter, log_message)
                         
                         if stock_quant_id.reserved_quantity == 0:
-                            move_line_lot_reserve_id = self.env['stock.move.line'].search([('product_id', '=', stock_lot_id.product_id.id),
-                                                   ('location_id', '=', 47),('location_dest_id','=',9), ('reference','=', order_ref_prev)], limit=1)
-                            log_message = 'QUANT Reserve 0 et REFERENCE BL : ' + str(order_ref_prev) 
-                            self._create_common_log_line(job, csvwriter, log_message)
-                            # On regarde su le BL que le produit n'a pas un num affecté
-                            if move_line_lot_reserve_id:
-                                lot_existants.append(move_line_lot_reserve_id.lot_id) #numero lot
-                                lot_existants.append(move_line_lot_reserve_id.id) #numero move_line
-                                log_message = 'numéro de lot : ' + str(move_line_lot_reserve_id.lot_id.id) +  ' numéro de ligne : ' + str(move_line_lot_reserve_id.id)
-                                self._create_common_log_line(job, csvwriter, log_message)
+                            
+
+
                             
 
                         #if stock_quant_id.reserved_quantity > 0:
