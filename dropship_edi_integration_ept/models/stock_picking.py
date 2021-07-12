@@ -297,7 +297,7 @@ class StockPicking(models.Model):
                             stock_quant_id = self.env['stock.quant'].search([('lot_id', '=', stock_lot_id.id),
                                                    ('location_id', '=', 47)], limit=1)
 
-                            log_message = 'numéro de série : ' + str(stock_quant_id.name) +  ' numéro de quant : ' + str(stock_quant_id.id) + ' réservation : ' + str(stock_quant_id.reserved_quantity)
+                            log_message = 'numéro de série : ' + str(stock_lot_id.name) +  ' numéro de quant : ' + str(stock_quant_id.id) + ' réservation : ' + str(stock_quant_id.reserved_quantity)
                             self._create_common_log_line(job, csvwriter, log_message)
                         
                         #On teste si le numéro de lot correspond au BL
