@@ -313,7 +313,7 @@ class StockPicking(models.Model):
                                 log_message = 'Déjà affecté au Bon BL'
                             else:
                                 log_message = 'On doit inverser lot avec autre BL'
-                                
+
                             self._create_common_log_line(job, csvwriter, log_message)
 
 
@@ -333,15 +333,15 @@ class StockPicking(models.Model):
 
                             
                         #On teste si le numéro de lot correspond au BL qu'il est dans le stock ectra et qu'il part bien chez le client
-                        num_lot_exist_id = self.env['stock.move.line'].search([('lot_id', '=', stock_lot_id.id),
-                                                   ('location_id', '=', 47),('location_dest_id','=',9)], limit=1)
+                        #num_lot_exist_id = self.env['stock.move.line'].search([('lot_id', '=', stock_lot_id.id),
+                         #                          ('location_id', '=', 47),('location_dest_id','=',9)], limit=1)
 
                         #on réccupère tous les produits avec un numéro de lot affecté
                         #move_line_lot_reserve_ids = self.env['stock.move.line'].search([('product_id', '=', stock_lot_id.product_id.id),
                         #                           ('location_id', '=', 47),('location_dest_id','=',9), ('reference','=', order_ref_prev)], limit=1)
 
-                        move_line_lot_reserve_ids = self.env['stock.move.line'].search([('product_id', '=', stock_lot_id.product_id.id),
-                                                   ('location_id', '=', 47),('location_dest_id','=',9)], limit=1)
+                        #move_line_lot_reserve_ids = self.env['stock.move.line'].search([('product_id', '=', stock_lot_id.product_id.id),
+                         #                          ('location_id', '=', 47),('location_dest_id','=',9)], limit=1)
 
                         
 
