@@ -305,9 +305,9 @@ class StockPicking(models.Model):
                         num_lot_exist_id = self.env['stock.move.line'].search([('lot_id', '=', stock_lot_id.id),
                                                    ('location_id', '=', 47),('location_dest_id','=',9)], limit=1)
                         if num_lot_exist_id:
-                            log_message = 'EXIST : ' + str(num_lot_exist) 
+                            log_message = 'EXIST : ' + str(num_lot_exist_id) 
                         else:
-                            log_message = 'Pas ne numéro de lot trouvé' + str(num_lot_exist) 
+                            log_message = 'Pas ne numéro de lot trouvé' + str(num_lot_exist_id) 
                         self._create_common_log_line(job, csvwriter, log_message)
 
 
