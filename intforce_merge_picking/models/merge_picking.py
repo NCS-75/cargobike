@@ -16,6 +16,10 @@ class StockPicking(models.Model):
     is_merged = fields.Boolean(string="Is merged ?", default=False)
     #sale_ids = fields.One2many('merge.pickingline', 'sale_id')
 
+class StockMoveLine(models.Model):
+    _inherit = "stock.move.line"
+    is_merged = fields.Boolean(string="Impoted num", default=False)
+
 
 class MergePicking(models.TransientModel):
     _name = 'merge.picking'
