@@ -302,9 +302,12 @@ class StockPicking(models.Model):
                         
                         #On teste si le numéro de lot correspond au BL qu'il est dans le stock ectra et qu'il part bien chez le client
 
-                        num_lot_exist = self.env['stock.move.line'].search([('lot_id', '=', stock_lot_id.id),
+                        num_lot_exist_id = self.env['stock.move.line'].search([('lot_id', '=', stock_lot_id.id),
                                                    ('location_id', '=', 47),('location_dest_id','=',9)], limit=1)
-                        log_message = 'EXIST : ' + str(num_lot_exist) 
+                        if num_lot_exist_id:
+                            log_message = 'EXIST : ' + str(num_lot_exist) 
+                        else:
+                            log_message = 'Pas ne numéro de lot trouvé' + str(num_lot_exist) 
                         self._create_common_log_line(job, csvwriter, log_message)
 
 
