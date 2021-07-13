@@ -289,7 +289,7 @@ class StockPicking(models.Model):
                     #Gestion des numeros de lot livrés
                     if product_code == '':
                         
-                        
+                        product_qty = 1
                         log_message = 'Gestion lot'
                         #Numero du lot à importer
                         self._create_common_log_line(job, csvwriter, log_message)
