@@ -459,12 +459,17 @@ class StockPicking(models.Model):
             log_message = 'On a les 2 -> id_temp1 : ' + str(id_temp1) + ' id_temp2 : ' + str(id_temp2)
             self._create_common_log_line(job, csvwriter, log_message)
 
+            #Le Numéro de lot est déjà affecté
             if stock_move_line_import_id.reference ==  reference:
                 log_message = 'Le lot du BL est déjà affecté au BL'
                 self._create_common_log_line(job, csvwriter, log_message)
+                
                 return True
-            #stock_move_line_old_id.id = id_temp2
-            #stock_move_line_import_id.id = id_temp1
+
+            stock_move_line_old_id.id = id_temp2
+            stock_move_line_import_id.id = id_temp1
+
+            stock_move_line_old_id.importednum = True
             return True
 
         #Le nouveau lot n'est pas réservé on doit désallouer le lot en cours sur le BL et le remplacer par le nouveau livré    
