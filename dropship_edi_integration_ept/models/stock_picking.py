@@ -436,10 +436,12 @@ class StockPicking(models.Model):
         return True
 
     def swap_num_lot(self,csvwriter, job, lot_import_id, lot_existant_id, reference):
+        #On cherche si le lot importé est affecté sur un BL
         stock_move_line_import_id = self.env['stock.move.line'].search(
                             [('lot_id', '=', lot_import_id),
                              ('location_id', '=', 47),], limit=1)
-        
+
+        #On cherche quel lot est affecté sur le BL
         stock_move_line_old_id = self.env['stock.move.line'].search(
                             [('lot_id', '=', lot_existant_id),
                              ('location_id', '=', 47),('reference', '=', reference)], limit=1)
@@ -454,9 +456,14 @@ class StockPicking(models.Model):
             #stock_move_line_old_id.id = id_temp2
             #stock_move_line_import_id.id = id_temp1
             return True
+
+        #Le nouveau lot n'est pas réservé on doit désallouer le lot en cours sur le BL et le remplacer par le nouveau livré    
         if stock_move_line_old_id and not stock_move_line_import_id:
             id_temp1 = stock_move_line_old_id.id
             id_temp2 = stock_move_line_import_id.id
+            #On affecte le nouveau numero à la ligne
+            stock_move_line_old_id.lot_id = lot_import_id
+
             log_message = 'On a l\'ancien et pas le nouveau -> id_temp1 : ' + str(id_temp1) + ' id_temp2 : ' + str(id_temp2)
             self._create_common_log_line(job, csvwriter, log_message)
             #stock_move_line_old_id.id = id_temp2
