@@ -306,7 +306,7 @@ class StockPicking(models.Model):
                         
                         if stock_lot_id:
                             #on cherche tous les lot associé au BL en auto
-                            self.env.cr.execute("select lot_id from stock_move_line where product_id= " + str(stock_lot_id.product_id.id) + " and reference='" + str(order_ref_prev) + "'")
+                            self.env.cr.execute("select lot_id from stock_move_line where product_id= " + str(stock_lot_id.product_id.id) + " and reference='" + str(order_ref_prev) + "+ "' and importednum IS NOT TRUE")
                             ids_returned = self.env.cr.fetchone()
                             if ids_returned:
                                 log_message = 'lot retournés : ' + str(ids_returned[0]) 
