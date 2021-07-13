@@ -439,15 +439,33 @@ class StockPicking(models.Model):
         stock_move_line_import_id = self.env['stock.move.line'].search(
                             [('lot_id', '=', lot_import_id),
                              ('location_id', '=', 47),], limit=1)
+        
         stock_move_line_old_id = self.env['stock.move.line'].search(
                             [('lot_id', '=', lot_existant_id),
                              ('location_id', '=', 47),('reference', '=', reference)], limit=1)
         log_message = 'stock_move_line_import_id : ' + str(stock_move_line_import_id) + ' stock_move_line_old_id : ' + str(stock_move_line_old_id) + ' REF : ' + str(reference)
         self._create_common_log_line(job, csvwriter, log_message)
-        if stock_move_line_old_id:
+
+        if stock_move_line_old_id and stock_move_line_import_id:
             id_temp1 = stock_move_line_old_id.id
             id_temp2 = stock_move_line_import_id.id
-            log_message = 'id_temp1 : ' + str(id_temp1) + ' id_temp2 : ' + str(id_temp2)
+            log_message = 'On a les 2 -> id_temp1 : ' + str(id_temp1) + ' id_temp2 : ' + str(id_temp2)
+            self._create_common_log_line(job, csvwriter, log_message)
+            #stock_move_line_old_id.id = id_temp2
+            #stock_move_line_import_id.id = id_temp1
+            return True
+        if stock_move_line_old_id and not stock_move_line_import_id:
+            id_temp1 = stock_move_line_old_id.id
+            id_temp2 = stock_move_line_import_id.id
+            log_message = 'On a l\'ancien et pas le nouveau -> id_temp1 : ' + str(id_temp1) + ' id_temp2 : ' + str(id_temp2)
+            self._create_common_log_line(job, csvwriter, log_message)
+            #stock_move_line_old_id.id = id_temp2
+            #stock_move_line_import_id.id = id_temp1
+            return True
+        if not stock_move_line_old_id and stock_move_line_import_id:
+            id_temp1 = stock_move_line_old_id.id
+            id_temp2 = stock_move_line_import_id.id
+            log_message = 'On a le nouveau et pas l\'ancien -> id_temp1 : ' + str(id_temp1) + ' id_temp2 : ' + str(id_temp2)
             self._create_common_log_line(job, csvwriter, log_message)
             #stock_move_line_old_id.id = id_temp2
             #stock_move_line_import_id.id = id_temp1
