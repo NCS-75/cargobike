@@ -314,7 +314,7 @@ class StockPicking(models.Model):
                             else:
                                 log_message = 'le numero de lot n\'existe pas ou a déjà été affecté' 
                                 self._create_common_log_line(job, csvwriter, log_message)
-                                continue
+                        
 
                             if stock_lot_id.id in ids_returned:
                                 log_message = 'Déjà affecté au Bon BL'
