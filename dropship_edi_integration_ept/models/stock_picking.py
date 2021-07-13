@@ -444,7 +444,7 @@ class StockPicking(models.Model):
         #On cherche quel lot est affecté sur le BL
         stock_move_line_old_id = self.env['stock.move.line'].search(
                             [('lot_id', '=', lot_existant_id),
-                             ('location_id', '=', 47),('reference', '=', reference)], limit=1)
+                             ('location_id', '=', 47),('reference', '=', reference),('importednum', '=', False)], limit=1)
         log_message = 'stock_move_line_import_id : ' + str(stock_move_line_import_id) + ' stock_move_line_old_id : ' + str(stock_move_line_old_id) + ' REF : ' + str(reference)
         self._create_common_log_line(job, csvwriter, log_message)
 
@@ -472,7 +472,7 @@ class StockPicking(models.Model):
             #stock_move_line_import_id.id = id_temp1
             return True
 
-            
+
         if not stock_move_line_old_id and stock_move_line_import_id:
             id_temp1 = stock_move_line_old_id.id
             id_temp2 = stock_move_line_import_id.id
