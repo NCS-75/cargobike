@@ -331,7 +331,7 @@ class StockPicking(models.Model):
 
 
 
-                            continue
+                            #continue
 
                         
 
