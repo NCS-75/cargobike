@@ -259,6 +259,7 @@ class StockPicking(models.Model):
                                         delimiter=partner_id.csv_delimiter)
                 stock_pickng_id = 0
                 order_ref_prev = ''
+                product_ref_prev = ''
                 lot_traites = []
                 for line in reader:
                     order_ref = line[3] or ''
@@ -266,6 +267,7 @@ class StockPicking(models.Model):
                     product_code = line[2] or ''
                     product_qty = line[0] or ''
                     num_lot = line[1] or ''
+                    
                     log_message = 'dans le fichier'
                     self._create_common_log_line(job, csvwriter, log_message)
                     log_message = 'QUANTITE : ' + str(product_qty) 
@@ -288,7 +290,7 @@ class StockPicking(models.Model):
                     
                     #Gestion des numeros de lot livrés
                     if product_code == '':
-                        
+                        product_code = product_ref_prev
                         product_qty = 1
                         log_message = 'Gestion lot'
                         #Numero du lot à importer
@@ -398,6 +400,8 @@ class StockPicking(models.Model):
                                     else:
                                         stock_move_id.picking_id.write(
                                             {'carrier_tracking_ref': tracking_no})
+            if product_code != '':
+                product_ref_prev = line[2] or ''
 
                 for validate_picking_id in list(set(validate_picking_ids)):
                     tracking_no = validate_picking_id.carrier_tracking_ref
