@@ -319,7 +319,8 @@ class StockPicking(models.Model):
                             if stock_lot_id.id in ids_returned:
                                 log_message = 'Déjà affecté au Bon BL'
                                 self._create_common_log_line(job, csvwriter, log_message)
-                                continue
+                                self.swap_num_lot(csvwriter, job, stock_lot_id.id, ids_returned[0], order_ref_prev)
+                                #continue
                             else:
                                 log_message = 'On doit inverser lot avec autre BL'
                                 self._create_common_log_line(job, csvwriter, log_message)
