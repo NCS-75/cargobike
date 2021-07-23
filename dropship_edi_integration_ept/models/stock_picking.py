@@ -474,7 +474,7 @@ class StockPicking(models.Model):
 
             #Le Numéro de lot est déjà affecté
             if stock_move_line_import_id.reference ==  reference:
-                log_message = 'Le lot du BL est déjà affecté au BL'
+                log_message = 'Le lot du BL est déjà affecté au BL' + str(id_temp1) + ' - ' + str(id_temp2)
                 self._create_common_log_line(job, csvwriter, log_message)
                 
                 return True
