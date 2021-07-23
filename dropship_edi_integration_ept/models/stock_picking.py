@@ -479,9 +479,9 @@ class StockPicking(models.Model):
                 self._create_common_log_line(job, csvwriter, log_message)
                 
                 return True
-            #if id_temp2:
-                #stock_move_line_old_id.id = id_temp2
-            #stock_move_line_import_id.id = id_temp1
+            if id_temp2:
+                stock_move_line_old_id.id = id_temp2
+            stock_move_line_import_id.id = id_temp1
 
             stock_move_line_old_id.importednum = True
             return True
