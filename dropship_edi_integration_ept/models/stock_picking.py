@@ -282,6 +282,7 @@ class StockPicking(models.Model):
                                                    ('state', 'not in', ['done', 'cancel'])],
                                                   limit=1)
                         order_ref_prev = order_ref
+                        product_ref_prev = product_code
                         #if not stock_pickng_id:
                          #   continue
 
