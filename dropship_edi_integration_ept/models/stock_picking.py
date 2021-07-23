@@ -270,7 +270,7 @@ class StockPicking(models.Model):
                     
                     
                     
-                    product_ref_prev = product_code
+                    
                     #Gestion de la première ligne ECTRA
                     if str(product_qty) == 'E':
                         #del lot_existants[:]
@@ -402,6 +402,8 @@ class StockPicking(models.Model):
                                             {'carrier_tracking_ref': tracking_no})
             if product_code != '':
                 product_ref_prev = line[2] or ''
+                log_message = 'REF PRODUIT -1 : ' + product_ref_prev
+                self._create_common_log_line(job, csvwriter, log_message)
 
                 for validate_picking_id in list(set(validate_picking_ids)):
                     tracking_no = validate_picking_id.carrier_tracking_ref
