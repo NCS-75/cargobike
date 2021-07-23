@@ -353,8 +353,7 @@ class StockPicking(models.Model):
                     self._create_common_log_line(job, csvwriter, log_message)
                     if product_vendor_code_id:
                         stock_move_id = self.env['stock.move'].search(
-                            [('product_id', '=', product_vendor_code_id.id),
-                             ('origin', '=', stock_pickng_id.origin),('reference', '=', order_ref_prev)], limit=1)
+                            [('product_id', '=', product_vendor_code_id.id),('reference', '=', order_ref_prev)], limit=1)
                         log_message = 'VENDOR OK : ' + str(stock_move_id) + ' - ' + str(stock_pickng_id.origin) + ' - ' + str(order_ref_prev)
                         self._create_common_log_line(job, csvwriter, log_message)
                         
