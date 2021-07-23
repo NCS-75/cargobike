@@ -479,7 +479,7 @@ class StockPicking(models.Model):
                 
                 return True
             if id_temp2:
-                stock_move_line_old_id.id = id_temp2
+                #stock_move_line_old_id.id = id_temp2
             stock_move_line_import_id.id = id_temp1
 
             stock_move_line_old_id.importednum = True
