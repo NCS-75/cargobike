@@ -348,7 +348,7 @@ class StockPicking(models.Model):
                     self._create_common_log_line(job, csvwriter, log_message)
                     product_vendor_code_id = self.env['product.product'].search(
                         [('default_code', '=', product_code)], limit=1)
-                    log_message = product_vendor_code_id
+                    log_message = 'CODE ' + product_vendor_code_id
                     self._create_common_log_line(job, csvwriter, log_message)
                     if product_vendor_code_id:
                         stock_move_id = self.env['stock.move'].search(
