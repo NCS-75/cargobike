@@ -268,21 +268,17 @@ class StockPicking(models.Model):
                     product_qty = line[0] or ''
                     num_lot = line[1] or ''
                     
-                    log_message = 'dans le fichier'
-                    self._create_common_log_line(job, csvwriter, log_message)
-                    log_message = 'QUANTITE : ' + str(product_qty) 
-                    self._create_common_log_line(job, csvwriter, log_message)
                     
+                    
+                    product_ref_prev = product_code
                     #Gestion de la première ligne ECTRA
                     if str(product_qty) == 'E':
                         #del lot_existants[:]
-                        log_message = 'premiere ligne'
-                        self._create_common_log_line(job, csvwriter, log_message)
                         stock_pickng_id = self.search([('name', '=', order_ref),
                                                    ('state', 'not in', ['done', 'cancel'])],
                                                   limit=1)
                         order_ref_prev = order_ref
-                        product_ref_prev = product_code
+                        
                         #if not stock_pickng_id:
                          #   continue
 
@@ -339,7 +335,10 @@ class StockPicking(models.Model):
                         
 
 
-                                
+                    log_message = 'QUANTITE : ' + str(product_qty) 
+                    self._create_common_log_line(job, csvwriter, log_message)
+
+
                     tracking_no = filename
                     
                     log_message = 'REF PRODUIT : ' + product_code
