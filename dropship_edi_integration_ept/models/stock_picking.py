@@ -326,7 +326,10 @@ class StockPicking(models.Model):
                                 #on appelle la fonction de SWAP des Num lot
                                 self.swap_num_lot(csvwriter, job, stock_lot_id.id, ids_returned[0], order_ref_prev)
 
-                            
+                    else:    
+                        product_ref_prev = line[2] or ''
+                        log_message = 'REF PRODUIT -1 : ' + product_ref_prev
+                        self._create_common_log_line(job, csvwriter, log_message)    
 
 
 
@@ -401,9 +404,7 @@ class StockPicking(models.Model):
                                         stock_move_id.picking_id.write(
                                             {'carrier_tracking_ref': tracking_no})
             if product_code != '':
-                product_ref_prev = line[2] or ''
-                log_message = 'REF PRODUIT -1 : ' + product_ref_prev
-                self._create_common_log_line(job, csvwriter, log_message)
+                
 
                 for validate_picking_id in list(set(validate_picking_ids)):
                     tracking_no = validate_picking_id.carrier_tracking_ref
