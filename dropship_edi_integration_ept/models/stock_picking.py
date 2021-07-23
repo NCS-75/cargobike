@@ -354,8 +354,9 @@ class StockPicking(models.Model):
                         stock_move_id = self.env['stock.move'].search(
                             [('product_id', '=', product_vendor_code_id.id),
                              ('origin', '=', stock_pickng_id.origin),('reference', '=', order_ref_prev)], limit=1)
-                        log_message = stock_move_id
+                        log_message = 'VENDOR OK : ' + stock_move_id 
                         self._create_common_log_line(job, csvwriter, log_message)
+                        
                         if stock_move_id:
                             if stock_move_id.product_uom_qty < float(product_qty):
                                 log_message = (_("1 - Product ordered quantity %s and shipped"
